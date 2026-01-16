@@ -1,98 +1,274 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { AppHeader } from '@/components/app-header';
+import { CountryFlag } from '@/components/country-flag';
+import { DesignColors } from '@/constants/design-colors';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const username = 'Guest Manager'; // Placeholder - will be replaced with actual user data
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const nextMatch = {
+    id: '1',
+    homeTeam: { code: 'US', name: 'USA' },
+    awayTeam: { code: 'MX', name: 'Mexico' },
+    time: 'June 12 • 7:00 PM',
+    antePostPrediction: 'USA 2-1',
+    livePrediction: 'USA Win',
+  };
+
+  const worldCupStages = [
+    { id: 'groups', name: 'Group Stage', type: 'groups' },
+    { id: 'r32', name: 'Round of 32', type: 'knockout' },
+    { id: 'r16', name: 'Round of 16', type: 'knockout' },
+    { id: 'qf', name: 'Quarter Finals', type: 'knockout' },
+    { id: 'sf', name: 'Semi Finals', type: 'knockout' },
+    { id: 'final', name: 'Final', type: 'knockout' },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <AppHeader />
+      <View style={styles.headerExtension}>
+        <Text style={styles.welcomeText}>Welcome {username}</Text>
+        {/* Points Summary */}
+        <View style={styles.pointsCard}>
+          <View style={styles.pointsSection}>
+            <View style={styles.pointsItem}>
+              <Text style={styles.pointsLabel}>Ante Post</Text>
+              <View style={styles.pointsRectangle}>
+                <Text style={styles.pointsValue}>42</Text>
+              </View>
+            </View>
+            <View style={styles.pointsItem}>
+              <Text style={styles.pointsLabel}>Total</Text>
+              <View style={styles.pointsRectangle}>
+                <Text style={styles.pointsValue}>128</Text>
+              </View>
+            </View>
+            <View style={styles.pointsItem}>
+              <Text style={styles.pointsLabel}>Live Selection</Text>
+              <View style={styles.pointsRectangle}>
+                <Text style={styles.pointsValue}>86</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <ScrollView contentContainerStyle={styles.content}>
+
+        {/* Next Upcoming Game */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Next Upcoming Game</Text>
+          <View style={styles.matchCard}>
+            <View style={styles.matchHeader}>
+              <View style={styles.matchTeams}>
+                <CountryFlag
+                  countryCode={nextMatch.homeTeam.code}
+                  countryName={nextMatch.homeTeam.name}
+                  size={40}
+                />
+                <Text style={styles.vsText}>vs</Text>
+                <CountryFlag
+                  countryCode={nextMatch.awayTeam.code}
+                  countryName={nextMatch.awayTeam.name}
+                  size={40}
+                />
+              </View>
+              <Text style={styles.matchTime}>{nextMatch.time}</Text>
+            </View>
+            <View style={styles.predictionsRow}>
+              <View style={styles.predictionBox}>
+                <Text style={styles.predictionLabel}>Ante Post</Text>
+                <Text style={styles.predictionValue}>{nextMatch.antePostPrediction}</Text>
+              </View>
+              <View style={styles.predictionBox}>
+                <Text style={styles.predictionLabel}>Live Prediction</Text>
+                <Text style={styles.predictionValue}>{nextMatch.livePrediction}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* World Cup Standings */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>World Cup Standings</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.stagesScroll}>
+            {worldCupStages.map((stage) => (
+              <View key={stage.id} style={styles.stageCard}>
+                <Text style={styles.stageTitle}>{stage.name}</Text>
+                <View style={styles.standingsPlaceholder}>
+                  <Text style={styles.standingsText}>Standings for {stage.name} coming soon...</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  headerExtension: {
+    backgroundColor: DesignColors.text,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  welcomeText: {
+    color: DesignColors.textOnDark,
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 8,
+    marginBottom: 16,
+    opacity: 0.9,
+  },
+  pointsCard: {
+    backgroundColor: '#474A4A',
+    borderRadius: 20,
+    marginHorizontal: 20,
+    marginTop: 0,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  pointsSection: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  pointsItem: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 12,
+  },
+  pointsRectangle: {
+    width: '80%',
+    aspectRatio: 1.3,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: DesignColors.surface,
+    backgroundColor: DesignColors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 70,
+  },
+  pointsLabel: {
+    color: DesignColors.textOnDark,
+    fontSize: 11,
+    fontWeight: '600',
+    textAlign: 'center',
+    fontFamily: 'Ethnocentric',
+  },
+  pointsValue: {
+    color: DesignColors.textOnDark,
+    fontSize: 20,
+    fontWeight: '700',
+    fontFamily: 'Ethnocentric',
+  },
+  content: {
+    padding: 20,
+    paddingTop: 24,
+    paddingBottom: 80,
+    gap: 24,
+  },
+  section: {
+    gap: 12,
+  },
+  sectionTitle: {
+    color: DesignColors.text,
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  matchCard: {
+    borderRadius: 18,
+    backgroundColor: DesignColors.surface,
+    padding: 16,
+    gap: 16,
+  },
+  matchHeader: {
+    gap: 12,
+    alignItems: 'center',
+  },
+  matchTeams: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
+    gap: 20,
   },
-  stepContainer: {
-    gap: 8,
+  vsText: {
+    color: DesignColors.text,
+    fontSize: 14,
+    fontWeight: '600',
+    opacity: 0.6,
+  },
+  matchTime: {
+    color: DesignColors.text,
+    fontSize: 14,
+    opacity: 0.7,
+  },
+  predictionsRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  predictionBox: {
+    flex: 1,
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    padding: 12,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: DesignColors.surface,
+  },
+  predictionLabel: {
+    color: DesignColors.text,
+    fontSize: 12,
+    fontWeight: '600',
     marginBottom: 8,
+    opacity: 0.7,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  predictionValue: {
+    color: DesignColors.text,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  stagesScroll: {
+    marginHorizontal: -20,
+    paddingHorizontal: 20,
+  },
+  stageCard: {
+    width: 280,
+    borderRadius: 18,
+    backgroundColor: DesignColors.surface,
+    padding: 16,
+    marginRight: 16,
+  },
+  stageTitle: {
+    color: DesignColors.text,
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 12,
+  },
+  standingsPlaceholder: {
+    minHeight: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  standingsText: {
+    color: DesignColors.text,
+    fontSize: 14,
+    opacity: 0.6,
+    textAlign: 'center',
   },
 });
