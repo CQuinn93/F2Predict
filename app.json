@@ -42,7 +42,7 @@
     ],
     "extra": {
       "supabaseUrl": "https://wmdpbqxpuekdmgryucpv.supabase.co",
-      "supabaseKey": "sb_publishable_RCeQKCj0pptDucx7XnbgHW_k-rf-AvA"
+      "supabaseKey": "sb_publishable_RCeQKCj0pptDucx7XnbgHw_k-rf-AvA"
     },
     "experiments": {
       "typedRoutes": true,
